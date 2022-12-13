@@ -15,6 +15,11 @@ public class UsuarioService {
     @Autowired
     private UsuariosRepository repositorio;
 
+    public Optional<Usuario> verificarUsuario(String usuario, String clave){
+        return repositorio.login(usuario, clave);
+    }
+
+
     public List<Usuario> getUsuarios(){
         return repositorio.findAll();
     }

@@ -104,7 +104,7 @@ public class EstudianteService {
             Optional<Estudiante> busquedaEstudianteId = repositorio.findById(estudiante.getId());
             if (busquedaEstudianteId.isPresent()) {
                 Optional<Usuario> busquedaUsuario = repoUser
-                        .findByUsuario(busquedaEstudianteId.get().getNumeroDocumento());
+                        .findById(busquedaEstudianteId.get().getNumeroDocumento());
                 if (busquedaUsuario.isPresent()) {
                     repoUser.delete(busquedaUsuario.get());
                     busquedaUsuario.get().setUsuario(estudiante.getNumeroDocumento());

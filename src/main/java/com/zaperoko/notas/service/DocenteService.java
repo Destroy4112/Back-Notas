@@ -66,7 +66,7 @@ public class DocenteService {
         }
         Optional<Docente> busquedaDocenteId = docenteRepositorio.findById(docente.getId());
         if (busquedaDocenteId.isPresent()) {
-            Optional<Usuario> busquedaUsuario = usuarioRepositorio.findByUsuario(busquedaDocenteId.get().getNumeroDocumento());
+            Optional<Usuario> busquedaUsuario = usuarioRepositorio.findById(busquedaDocenteId.get().getNumeroDocumento());
             if (busquedaUsuario.isPresent()) {
                 usuarioRepositorio.delete(busquedaUsuario.get());
                 busquedaUsuario.get().setUsuario(docente.getNumeroDocumento());

@@ -39,6 +39,11 @@ public class RolesController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(servicio.getRolById(id));
 	}
 
+	@GetMapping("/descripcion/{descripcion}")
+	public ResponseEntity<?> consultarRolPorDescripcion(@PathVariable String descripcion) {
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(servicio.getRolesByDescripcion(descripcion));
+	}
+
 	@PutMapping
 	public ResponseEntity<?> actualizarRol(@RequestBody Roles rol) {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(servicio.updateRoles(rol));

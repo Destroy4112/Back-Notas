@@ -16,6 +16,7 @@ import lombok.Setter;
 public class Usuario {
 
     @Id
+    private String id;
     private String usuario;
     private String clave;
     private String idRol;
