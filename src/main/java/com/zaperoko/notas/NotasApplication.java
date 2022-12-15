@@ -20,20 +20,23 @@ public class NotasApplication {
 	}
 
 	@EnableWebSecurity
-	@Configuration
-	class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Configuration
+    class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
-			CorsConfiguration configuration = new CorsConfiguration();
-			configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
-			configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE", "HEAD"));
-			configuration.setExposedHeaders(Arrays.asList("Authorization"));
-			configuration.setAllowedOrigins(Arrays.asList("*"));
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            CorsConfiguration configuration = new CorsConfiguration();
+            configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+            configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE", "HEAD"));
+            configuration.setExposedHeaders(Arrays.asList("Authorization"));
+            configuration.setAllowedOrigins(Arrays.asList("*"));
 
 			http.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-					.authorizeRequests().antMatchers(HttpMethod.POST, "/api/autenticacion").permitAll().anyRequest()
-					.authenticated().and().csrf().disable().cors().configurationSource(request -> configuration);
-		}
-	}
+			.authorizeRequests()
+			.antMatchers(HttpMethod.POST, "/api/autenticacion").permitAll()
+			.anyRequest().authenticated()
+			.and().csrf().disable().cors().configurationSource(request -> configuration);
+
+        }
+    }
 }

@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,14 +27,11 @@ public class AuthController {
     @PostMapping
     public ResponseEntity<?> verificarUsuario(@RequestBody Usuario user) {
         Optional<Usuario> resultado = servicio.verificarUsuario(user.getUsuario(), user.getClave());
-        // return ResponseEntity.ok(resultado);
         if (!resultado.isPresent()) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.ok((new JSONObject().put("token", "0")).toString());
         } else {
             String token = jwtUtil.generarToken(user.getUsuario(), user.getIdRol());
-            System.out.println("Arrieta "+token);
             return ResponseEntity.ok((new JSONObject().put("token", token)).toString());
         }
     }
-
 }
