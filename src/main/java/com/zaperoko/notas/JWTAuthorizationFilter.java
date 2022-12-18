@@ -50,6 +50,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 			
 		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException e) {
 			System.out.println("Excepcion de filtro JWT");
+			System.out.println(e.getMessage());
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
 			return;

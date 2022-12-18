@@ -22,7 +22,7 @@ public class AuthController {
     private UsuarioService servicio;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtUtil jwtUtil; 
 
     @PostMapping
     public ResponseEntity<?> verificarUsuario(@RequestBody Usuario user) {

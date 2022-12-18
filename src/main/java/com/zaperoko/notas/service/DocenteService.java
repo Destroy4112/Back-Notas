@@ -8,11 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.zaperoko.notas.model.Docente;
 import com.zaperoko.notas.model.ProfesorAsignatura;
-import com.zaperoko.notas.model.Roles;
 import com.zaperoko.notas.model.Usuario;
 import com.zaperoko.notas.repository.DocenteRepository;
 import com.zaperoko.notas.repository.ProfesorAsignaturaRepository;
-import com.zaperoko.notas.repository.RolesRepository;
 import com.zaperoko.notas.repository.UsuariosRepository;
 
 @Service
@@ -20,9 +18,6 @@ public class DocenteService {
 
     @Autowired
     private DocenteRepository docenteRepositorio;
-
-    @Autowired
-    private RolesRepository rolRepositorio;
 
     @Autowired
     private UsuariosRepository usuarioRepositorio;
@@ -35,17 +30,14 @@ public class DocenteService {
         if (busquedaDocente.isPresent()) {
             return busquedaDocente.get();
         }
-        Optional<Roles> busquedaRol = rolRepositorio.findById(docente.getIdRol());
-        if (busquedaRol.isPresent()) {
-            Usuario user = new Usuario();
-            user.setUsuario(docente.getNumeroDocumento());
-            user.setClave(docente.getNumeroDocumento());
-            user.setIdRol(docente.getIdRol());
-            usuarioRepositorio.insert(user);
+        Usuario user = new Usuario();
+        user.setUsuario(docente.getNumeroDocumento());
+        user.setClave(docente.getNumeroDocumento());
+        user.setIdRol(docente.getIdRol());
+        usuarioRepositorio.insert(user);
 
-            return docenteRepositorio.insert(docente);
-        }
-        return null;
+        return docenteRepositorio.insert(docente);
+
     }
 
     public List<Docente> getConsultarDocentes() {
@@ -54,6 +46,10 @@ public class DocenteService {
 
     public Optional<Docente> getDocenteById(String id) {
         return docenteRepositorio.findById(id);
+    }
+
+    public Optional<Docente> getDocenteByDocumento(String descripcion) {
+        return docenteRepositorio.findByNumeroDocumento(descripcion);
     }
 
     public Docente updateDocente(Docente docente) {
@@ -66,7 +62,8 @@ public class DocenteService {
         }
         Optional<Docente> busquedaDocenteId = docenteRepositorio.findById(docente.getId());
         if (busquedaDocenteId.isPresent()) {
-            Optional<Usuario> busquedaUsuario = usuarioRepositorio.findById(busquedaDocenteId.get().getNumeroDocumento());
+            Optional<Usuario> busquedaUsuario = usuarioRepositorio
+                    .findById(busquedaDocenteId.get().getNumeroDocumento());
             if (busquedaUsuario.isPresent()) {
                 usuarioRepositorio.delete(busquedaUsuario.get());
                 busquedaUsuario.get().setUsuario(docente.getNumeroDocumento());
